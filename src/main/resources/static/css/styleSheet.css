@@ -1,0 +1,26 @@
+a:hover, a:visited, a:link, a:active{
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.tree{
+    align-content: right;
+}
+
+.preload{
+    display: none;
+}
+
+.selected{
+    color: white;
+    font-weight: bold;
+    background: black;
+}
+
+#util ul{
+    list-style-type: none;
+    z-index:1000;
+}

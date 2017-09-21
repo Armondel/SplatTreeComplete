@@ -1,17 +1,21 @@
-package hellgate.comapany.treeview.controller;
+package hellgate.company.treeview.controller;
 
 
-import hellgate.comapany.treeview.entity.Node;
-import hellgate.comapany.treeview.entity.NodeRepository;
+import hellgate.company.treeview.entity.Node;
+import hellgate.company.treeview.repository.NodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping(path = "/demo")
+@Controller
+@RequestMapping(path = "/home")
 public class TreeController {
 
     @Autowired
     private NodeRepository nodeRepository;
+
+    @RequestMapping(path = "/index")
+    public String home () {return "templates/index.html";}
 
     @GetMapping(path = "/add")
     public @ResponseBody String addNewUser (@RequestParam String nodeName, @RequestParam Integer parentId){

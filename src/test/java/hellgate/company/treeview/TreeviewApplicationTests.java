@@ -1,4 +1,4 @@
-package hellgate.comapany.treeview;
+package hellgate.company.treeview;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

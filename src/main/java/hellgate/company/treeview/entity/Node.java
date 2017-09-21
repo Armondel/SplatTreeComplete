@@ -1,4 +1,4 @@
-package hellgate.comapany.treeview.entity;
+package hellgate.company.treeview.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
