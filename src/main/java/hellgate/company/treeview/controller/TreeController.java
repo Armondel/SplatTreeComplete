@@ -8,40 +8,57 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path = "/home")
 public class TreeController {
 
     @Autowired
     private NodeRepository nodeRepository;
 
-    @RequestMapping(path = "/index")
-    public String home () {return "templates/index.html";}
+    @RequestMapping(path = "/")
+    public String getTreeView(){
+        return "src/main/webapp/index.jsp";
+    }
 
-    @GetMapping(path = "/add")
-    public @ResponseBody String addNewUser (@RequestParam String nodeName, @RequestParam Integer parentId){
+    //Create button
+    @PostMapping(path = "/add")
+    public @ResponseBody Node addNewUser (@RequestParam String name, @RequestParam Integer parent){
          Node n = new Node();
-         n.setName(nodeName);
-         n.setParent(parentId);
+         n.setName(name);
+         n.setParent(parent);
          nodeRepository.save(n);
-         return "Saved";
+         return n;
     }
 
-    @GetMapping(path = "/update")
-    public @ResponseBody String updateCurrentUser (@RequestParam Integer nodeId, @RequestParam String nodeName){
-        Node n = nodeRepository.findOne(nodeId);
-        n.setName(nodeName);
+    //Rename button
+    @PostMapping(path = "/rename")
+    public @ResponseBody boolean updateCurrentUser (@RequestParam Integer id, @RequestParam String name){
+        Node n = nodeRepository.findOne(id);
+        n.setName(name);
         nodeRepository.save(n);
-        return "Name Changed";
+        return true;
     }
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<Node> getAllUsers(){
-        return nodeRepository.findAll();
+    //Delete button
+    @PostMapping(path = "/delete")
+    public @ResponseBody void deleteCurrentNode (@RequestParam Integer id){
+        if (nodeRepository.findNodesByParent(id) != null){
+            for (Node node:nodeRepository.findNodesByParent(id)) {
+                deleteCurrentNode(node.getId());
+            }
+        }
+        nodeRepository.delete(id);
     }
 
-    @GetMapping(path = "/findById")
-    public @ResponseBody Node getNodeById(@RequestParam Integer nodeId){
-        return nodeRepository.findById(nodeId);
+    @PostMapping(path = "/move")
+    public @ResponseBody boolean moveNode(@RequestParam Integer id, @RequestParam Integer parent){
+        Node n = nodeRepository.findOne(id);
+        n.setParent(parent);
+        nodeRepository.save(n);
+        return true;
+    }
+
+    @GetMapping(path = "/findByParent")
+    public @ResponseBody Iterable<Node> getNodeByParent(@RequestParam Integer id){
+        return nodeRepository.findNodesByParent(id);
     }
 
 }

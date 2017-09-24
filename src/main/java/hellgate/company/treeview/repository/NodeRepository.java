@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface NodeRepository extends CrudRepository<Node, Integer> {
 
-    Node findById(Integer nodeId);
+    Iterable<Node> findNodesByParent(Integer id);
+
 }

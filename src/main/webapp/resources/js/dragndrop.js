@@ -15,5 +15,11 @@ function dragDrop(ev) {
     var lis = ev.target.parentNode.nextElementSibling.childNodes[1];
     lis.appendChild(document.getElementById(data).closest('li'));
     ev.stopPropagation();
+    $.ajax({
+        type:'POST',
+        url: '/move',
+        data: {id: data, parent: ev.target.getAttribute('id')},
+        async: 'true'
+    });
     return false;
 }
